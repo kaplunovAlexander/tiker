@@ -1,7 +1,19 @@
+import os
+import platform
 import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
+
+def get_font_path():
+    if platform.system() == "Windows":
+        return r"C:\Windows\Fonts\Arial.ttf"
+    elif platform.system() == "Linux":
+        return "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+    elif platform.system() == "Darwin":  # MacOS
+        return "/Library/Fonts/Arial.ttf"
+    else:
+        raise RuntimeError("Unsupported operating system")
 
 def generate_video(text):
     width, height = 100, 100
@@ -10,7 +22,7 @@ def generate_video(text):
     out = cv2.VideoWriter("output.mp4", codec, 24, (width, height))
 
     font_size = 70
-    font_path = r"C:\Windows\Fonts\Arial.ttf"
+    font_path = get_font_path()
     font = ImageFont.truetype(font_path, font_size)
 
     pil_image = Image.new("RGB", (width, height))
